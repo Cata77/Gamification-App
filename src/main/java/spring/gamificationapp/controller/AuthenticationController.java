@@ -2,10 +2,7 @@ package spring.gamificationapp.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import spring.gamificationapp.dto.AuthenticatedUserDto;
 import spring.gamificationapp.service.AuthenticationService;
 
@@ -19,11 +16,22 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
+    @CrossOrigin
     public ResponseEntity<AuthenticatedUserDto> registerUser(@RequestBody AuthenticatedUserDto user) {
         authenticationService.registerUser(user);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .body(user);
+    }
+
+    @PostMapping("/login")
+    @CrossOrigin
+    public ResponseEntity<AuthenticatedUserDto> loginUser(@RequestBody AuthenticatedUserDto user) {
+        authenticationService.loginUser(user);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(user);
     }
 }

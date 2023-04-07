@@ -8,9 +8,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionControllerAdvice {
 
     @ExceptionHandler(UserAlreadyTakenException.class)
-    public ResponseEntity<ErrorDetails> exceptionNotEnoughMoneyHandler() {
+    public ResponseEntity<ErrorDetails> exceptionUserAlreadyTakenHandler() {
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setMessage("User already taken!");
+        return ResponseEntity
+                .badRequest()
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(IncorrectCredentialsException.class)
+    public ResponseEntity<ErrorDetails> exceptionIncorrectCredentialsHandler() {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setMessage("Incorrect credentials!");
         return ResponseEntity
                 .badRequest()
                 .body(errorDetails);

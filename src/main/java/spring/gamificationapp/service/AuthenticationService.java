@@ -3,6 +3,7 @@ package spring.gamificationapp.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spring.gamificationapp.dto.AuthenticatedUserDto;
+import spring.gamificationapp.exception.IncorrectCredentialsException;
 import spring.gamificationapp.exception.UserAlreadyTakenException;
 import spring.gamificationapp.model.User;
 import spring.gamificationapp.repository.UserRepository;
@@ -25,6 +26,11 @@ public class AuthenticationService {
             User user = modelMapper.map(authenticatedUserDto, User.class);
             userRepository.save(user);
         } else throw new UserAlreadyTakenException();
+    }
+
+    public void loginUser(AuthenticatedUserDto authenticatedUserDto) {
+        if (!checkIfUserExists(authenticatedUserDto))
+            throw new IncorrectCredentialsException();
     }
 
     public boolean checkIfUserExists(AuthenticatedUserDto authenticatedUserDto) {
