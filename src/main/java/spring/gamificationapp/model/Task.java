@@ -16,9 +16,12 @@ public class Task {
     private Integer id;
     private String description;
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
     private List<Option> options;
     private String correctOption;
     private BigDecimal tokens;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     public Task() {
     }
@@ -63,17 +66,25 @@ public class Task {
         this.tokens = tokens;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(description, task.description) && Objects.equals(options, task.options) && Objects.equals(correctOption, task.correctOption) && Objects.equals(tokens, task.tokens);
+        return Objects.equals(id, task.id) && Objects.equals(description, task.description) && Objects.equals(options, task.options) && Objects.equals(correctOption, task.correctOption) && Objects.equals(tokens, task.tokens) && category == task.category;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, options, correctOption, tokens);
+        return Objects.hash(id, description, options, correctOption, tokens, category);
     }
 
     @Override
@@ -84,6 +95,7 @@ public class Task {
                 ", options=" + options +
                 ", correctOption='" + correctOption + '\'' +
                 ", tokens=" + tokens +
+                ", category=" + category +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,9 @@ public class User {
     private Integer id;
     private String userName;
     private String password;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Task> createdTasks;
     private BigDecimal tokens;
 
     public User() {
