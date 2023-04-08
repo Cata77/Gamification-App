@@ -27,11 +27,11 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @CrossOrigin
-    public ResponseEntity<AuthenticatedUserDto> loginUser(@RequestBody AuthenticatedUserDto user) {
+    public ResponseEntity<String> loginUser(@RequestBody AuthenticatedUserDto user) {
         authenticationService.loginUser(user);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(user);
+                .body("Logged in! Welcome " + user.getUserName() + "!");
     }
 }
