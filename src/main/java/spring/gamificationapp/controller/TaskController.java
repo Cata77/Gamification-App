@@ -4,10 +4,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spring.gamificationapp.dto.CategoryTaskDto;
 import spring.gamificationapp.dto.TaskDto;
 import spring.gamificationapp.dto.UserProfileDto;
+import spring.gamificationapp.model.Task;
 import spring.gamificationapp.model.User;
 import spring.gamificationapp.service.TaskService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/tasks")
@@ -39,5 +43,18 @@ public class TaskController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(taskDto);
+    }
+
+    @GetMapping("/{category}")
+    public ResponseEntity<List<CategoryTaskDto>> showTasksFromCategory(@PathVariable String category) {
+        List<Task> tasks = taskService.findTasksFromCategory(category);
+
+        List<CategoryTaskDto> categoryTaskDtoList = tasks.stream()
+                .map(t -> modelMapper.map(t, CategoryTaskDto.class))
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryTaskDtoList);
     }
 }

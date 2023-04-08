@@ -35,8 +35,10 @@ public class TaskService {
     public void createTask(User user, TaskDto taskDto) {
         Task task = modelMapper.map(taskDto, Task.class);
 
-        if (!checkIfCategoryExists(taskDto.getCategory(),task))
-            throw new CategoryNotFoundException();
+        Optional<Category> category = checkIfCategoryExists(taskDto.getCategory());
+        if (category.isPresent())
+            task.setCategory(category.get());
+        else throw new CategoryNotFoundException();
 
         if (taskDto.getTokens().compareTo(BigDecimal.valueOf(10)) < 0 || taskDto.getTokens().compareTo(BigDecimal.valueOf(50)) > 0)
             throw new NotEnoughTokensException();
@@ -51,15 +53,19 @@ public class TaskService {
         optionRepository.saveAll(task.getOptions());
         taskRepository.save(task);
         userRepository.save(user);
-
     }
 
-    public static boolean checkIfCategoryExists(String category, Task task) {
+    public List<Task> findTasksFromCategory(String category) {
+        Optional<Category> categoryFound = checkIfCategoryExists(category);
+        if (categoryFound.isPresent())
+            return taskRepository.findAllByCategory(categoryFound.get());
+        else throw new CategoryNotFoundException();
+    }
+
+    public Optional<Category> checkIfCategoryExists(String category) {
         for (Category c : Category.values())
-            if (c.name().equalsIgnoreCase(category)) {
-                task.setCategory(c);
-                return true;
-            }
-        return false;
+            if (c.name().equalsIgnoreCase(category))
+                return Optional.of(c);
+        return Optional.empty();
     }
 }
