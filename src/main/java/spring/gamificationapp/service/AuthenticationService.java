@@ -22,19 +22,25 @@ public class AuthenticationService {
     }
 
     public void registerUser(AuthenticatedUserDto authenticatedUserDto) {
-        if (!checkIfUserExists(authenticatedUserDto)) {
+        if (!checkIfRegisteredAlreadyExists(authenticatedUserDto)) {
             User user = modelMapper.map(authenticatedUserDto, User.class);
             userRepository.save(user);
         } else throw new UserAlreadyTakenException();
     }
 
     public void loginUser(AuthenticatedUserDto authenticatedUserDto) {
-        if (!checkIfUserExists(authenticatedUserDto))
+        if (!checkIfUserCredentialsAreValid(authenticatedUserDto))
             throw new IncorrectCredentialsException();
     }
 
-    public boolean checkIfUserExists(AuthenticatedUserDto authenticatedUserDto) {
+    public boolean checkIfRegisteredAlreadyExists(AuthenticatedUserDto authenticatedUserDto) {
         Optional<User> foundUser = userRepository.findUserByUserName(authenticatedUserDto.getUserName());
+        return foundUser.isPresent();
+    }
+
+    public boolean checkIfUserCredentialsAreValid(AuthenticatedUserDto authenticatedUserDto) {
+        Optional<User> foundUser = userRepository.findUserByUserNameAndPassword(
+                authenticatedUserDto.getUserName(), authenticatedUserDto.getPassword());
         return foundUser.isPresent();
     }
 }
