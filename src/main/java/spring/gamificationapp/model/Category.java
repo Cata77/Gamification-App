@@ -1,8 +1,9 @@
 package spring.gamificationapp.model;
 
 public enum Category {
-    COMPUTER_SCIENCE,
+    PROGRAMMING,
     ECONOMY,
+    GEOGRAPHY,
     MUSIC,
     MOVIES,
     FOOTBALL

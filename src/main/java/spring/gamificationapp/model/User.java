@@ -57,17 +57,25 @@ public class User {
         this.tokens = score;
     }
 
+    public List<Task> getCreatedTasks() {
+        return createdTasks;
+    }
+
+    public void setCreatedTasks(List<Task> createdTasks) {
+        this.createdTasks = createdTasks;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(tokens, user.tokens);
+        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(createdTasks, user.createdTasks) && Objects.equals(tokens, user.tokens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, password, tokens);
+        return Objects.hash(id, userName, password, createdTasks, tokens);
     }
 
     @Override
@@ -76,7 +84,8 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", score=" + tokens +
+                ", createdTasks=" + createdTasks +
+                ", tokens=" + tokens +
                 '}';
     }
 }
