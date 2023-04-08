@@ -3,10 +3,7 @@ package spring.gamificationapp.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spring.gamificationapp.dto.TaskDto;
-import spring.gamificationapp.exception.CategoryNotFoundException;
-import spring.gamificationapp.exception.NotEnoughOptionsException;
-import spring.gamificationapp.exception.NotEnoughTokensException;
-import spring.gamificationapp.exception.UserNotFoundException;
+import spring.gamificationapp.exception.*;
 import spring.gamificationapp.model.Category;
 import spring.gamificationapp.model.Task;
 import spring.gamificationapp.model.User;
@@ -57,9 +54,13 @@ public class TaskService {
 
     public List<Task> findTasksFromCategory(String category) {
         Optional<Category> categoryFound = checkIfCategoryExists(category);
-        if (categoryFound.isPresent())
-            return taskRepository.findAllByCategory(categoryFound.get());
-        else throw new CategoryNotFoundException();
+        if (categoryFound.isEmpty())
+            throw new CategoryNotFoundException();
+
+        List<Task> tasks = taskRepository.findAllByCategory(categoryFound.get());
+        if (tasks.isEmpty())
+            throw new NoTaskFoundException();
+        return taskRepository.findAllByCategory(categoryFound.get());
     }
 
     public Optional<Category> checkIfCategoryExists(String category) {

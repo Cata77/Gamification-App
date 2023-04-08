@@ -61,4 +61,13 @@ public class ExceptionControllerAdvice {
                 .badRequest()
                 .body(errorDetails);
     }
+
+    @ExceptionHandler(NoTaskFoundException.class)
+    public ResponseEntity<ErrorDetails> exceptionNoTaskFoundHandler() {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setMessage("No tasks for this category have been found!");
+        return ResponseEntity
+                .badRequest()
+                .body(errorDetails);
+    }
 }
