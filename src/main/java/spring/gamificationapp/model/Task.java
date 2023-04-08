@@ -15,7 +15,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String description;
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id", referencedColumnName = "id")
     private List<Option> options;
     private String correctOption;

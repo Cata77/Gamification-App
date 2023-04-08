@@ -16,9 +16,9 @@ public class User {
     private Integer id;
     private String userName;
     private String password;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private List<Task> createdTasks;
+    private List<Task> forbiddenTasks;
     private BigDecimal tokens;
 
     public User() {
@@ -57,12 +57,12 @@ public class User {
         this.tokens = score;
     }
 
-    public List<Task> getCreatedTasks() {
-        return createdTasks;
+    public List<Task> getForbiddenTasks() {
+        return forbiddenTasks;
     }
 
-    public void setCreatedTasks(List<Task> createdTasks) {
-        this.createdTasks = createdTasks;
+    public void setForbiddenTasks(List<Task> createdTasks) {
+        this.forbiddenTasks = createdTasks;
     }
 
     @Override
@@ -70,12 +70,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(createdTasks, user.createdTasks) && Objects.equals(tokens, user.tokens);
+        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(forbiddenTasks, user.forbiddenTasks) && Objects.equals(tokens, user.tokens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, password, createdTasks, tokens);
+        return Objects.hash(id, userName, password, forbiddenTasks, tokens);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", createdTasks=" + createdTasks +
+                ", createdTasks=" + forbiddenTasks +
                 ", tokens=" + tokens +
                 '}';
     }

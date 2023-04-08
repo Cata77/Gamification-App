@@ -28,19 +28,16 @@ public class AuthenticationService {
         } else throw new UserAlreadyTakenException();
     }
 
-    public void loginUser(AuthenticatedUserDto authenticatedUserDto) {
-        if (!checkIfUserCredentialsAreValid(authenticatedUserDto))
-            throw new IncorrectCredentialsException();
+    public User loginUser(AuthenticatedUserDto authenticatedUserDto) {
+        Optional<User> foundUser = userRepository.findUserByUserNameAndPassword(
+                authenticatedUserDto.getUserName(), authenticatedUserDto.getPassword());
+        if (foundUser.isPresent())
+            return foundUser.get();
+        throw new IncorrectCredentialsException();
     }
 
     public boolean checkIfRegisteredAlreadyExists(AuthenticatedUserDto authenticatedUserDto) {
         Optional<User> foundUser = userRepository.findUserByUserName(authenticatedUserDto.getUserName());
-        return foundUser.isPresent();
-    }
-
-    public boolean checkIfUserCredentialsAreValid(AuthenticatedUserDto authenticatedUserDto) {
-        Optional<User> foundUser = userRepository.findUserByUserNameAndPassword(
-                authenticatedUserDto.getUserName(), authenticatedUserDto.getPassword());
         return foundUser.isPresent();
     }
 }

@@ -32,12 +32,8 @@ public class TaskService {
         this.modelMapper = modelMapper;
     }
 
-    public void createTask(String username, TaskDto taskDto) {
+    public void createTask(User user, TaskDto taskDto) {
         Task task = modelMapper.map(taskDto, Task.class);
-
-        Optional<User> user = userRepository.findUserByUserName(username);
-        if (user.isEmpty())
-            throw new UserNotFoundException();
 
         if (!checkIfCategoryExists(taskDto.getCategory(),task))
             throw new CategoryNotFoundException();
@@ -48,13 +44,13 @@ public class TaskService {
         if (taskDto.getOptions().size() != 4)
             throw new NotEnoughOptionsException();
 
-        List<Task> userTasks = user.get().getCreatedTasks();
+        List<Task> userTasks = user.getForbiddenTasks();
         userTasks.add(task);
-        user.get().setCreatedTasks(userTasks);
+        user.setForbiddenTasks(userTasks);
 
         optionRepository.saveAll(task.getOptions());
         taskRepository.save(task);
-        userRepository.save(user.get());
+        userRepository.save(user);
 
     }
 

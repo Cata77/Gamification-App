@@ -1,9 +1,11 @@
 package spring.gamificationapp.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.gamificationapp.dto.AuthenticatedUserDto;
+import spring.gamificationapp.model.User;
 import spring.gamificationapp.service.AuthenticationService;
 
 @RestController
@@ -16,7 +18,6 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    @CrossOrigin
     public ResponseEntity<AuthenticatedUserDto> registerUser(@RequestBody AuthenticatedUserDto user) {
         authenticationService.registerUser(user);
 
@@ -26,9 +27,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    @CrossOrigin
-    public ResponseEntity<String> loginUser(@RequestBody AuthenticatedUserDto user) {
-        authenticationService.loginUser(user);
+    public ResponseEntity<String> loginUser(@RequestBody AuthenticatedUserDto authenticatedUserDto, HttpSession session) {
+        User user = authenticationService.loginUser(authenticatedUserDto);
+
+        session.setAttribute("user", user);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
