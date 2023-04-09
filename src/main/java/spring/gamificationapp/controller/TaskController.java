@@ -25,15 +25,6 @@ public class TaskController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<UserProfileDto> showUserProfile(@ModelAttribute("user") User user) {
-        UserProfileDto userProfileDto = taskService.showAppUserProfile(user);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userProfileDto);
-    }
-
     @PostMapping("/add-task")
     public ResponseEntity<TaskDto> addTask(
             @ModelAttribute("user") User user,

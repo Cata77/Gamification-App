@@ -34,17 +34,6 @@ public class TaskService {
         this.modelMapper = modelMapper;
     }
 
-    public UserProfileDto showAppUserProfile(User user) {
-        UserProfileDto userProfileDto = modelMapper.map(user,UserProfileDto.class);
-        List<Task> userForbiddenTasks = taskRepository.findForbiddenUserTasks(user.getId());
-
-        List<TaskDto> list = userForbiddenTasks.stream()
-                        .map(task -> modelMapper.map(task,TaskDto.class))
-                        .toList();
-        userProfileDto.setForbiddenTasks(list);
-        return userProfileDto;
-    }
-
     public void createTask(User user, TaskDto taskDto) {
         Task task = modelMapper.map(taskDto, Task.class);
 
