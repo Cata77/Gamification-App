@@ -7,7 +7,7 @@ import spring.gamificationapp.model.User;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findUserByUserName(String username);
     Optional<User> findUserByUserNameAndPassword(String username,String password);
 }

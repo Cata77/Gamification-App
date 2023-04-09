@@ -65,7 +65,16 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(NoTaskFoundException.class)
     public ResponseEntity<ErrorDetails> exceptionNoTaskFoundHandler() {
         ErrorDetails errorDetails = new ErrorDetails();
-        errorDetails.setMessage("No tasks for this category have been found!");
+        errorDetails.setMessage("No new tasks for this category have been found!");
+        return ResponseEntity
+                .badRequest()
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(WrongAnswerException.class)
+    public ResponseEntity<ErrorDetails> exceptionWrongAnswerHandler() {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setMessage("Wrong answer!");
         return ResponseEntity
                 .badRequest()
                 .body(errorDetails);

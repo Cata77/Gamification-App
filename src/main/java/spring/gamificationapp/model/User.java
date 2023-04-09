@@ -13,23 +13,23 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String userName;
     private String password;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private List<Task> forbiddenTasks;
+    private List<UserTask> forbiddenTasks;
     private BigDecimal tokens;
 
     public User() {
         this.tokens = BigDecimal.ZERO;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,12 +57,12 @@ public class User {
         this.tokens = score;
     }
 
-    public List<Task> getForbiddenTasks() {
+    public List<UserTask> getForbiddenTasks() {
         return forbiddenTasks;
     }
 
-    public void setForbiddenTasks(List<Task> createdTasks) {
-        this.forbiddenTasks = createdTasks;
+    public void setForbiddenTasks(List<UserTask> forbiddenTasks) {
+        this.forbiddenTasks = forbiddenTasks;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", createdTasks=" + forbiddenTasks +
+                ", forbiddenTasks=" + forbiddenTasks +
                 ", tokens=" + tokens +
                 '}';
     }

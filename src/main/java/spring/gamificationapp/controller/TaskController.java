@@ -27,7 +27,7 @@ public class TaskController {
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileDto> showUserProfile(@ModelAttribute("user") User user) {
-        UserProfileDto userProfileDto = modelMapper.map(user, UserProfileDto.class);
+        UserProfileDto userProfileDto = taskService.showAppUserProfile(user);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -46,8 +46,10 @@ public class TaskController {
     }
 
     @GetMapping("/{category}")
-    public ResponseEntity<List<CategoryTaskDto>> showTasksFromCategory(@PathVariable String category) {
-        List<Task> tasks = taskService.findTasksFromCategory(category);
+    public ResponseEntity<List<CategoryTaskDto>> showTasksFromCategory(
+            @ModelAttribute("user") User user,
+            @PathVariable String category) {
+        List<Task> tasks = taskService.findTasksFromCategory(user, category);
 
         List<CategoryTaskDto> categoryTaskDtoList = tasks.stream()
                 .map(t -> modelMapper.map(t, CategoryTaskDto.class))
@@ -56,5 +58,17 @@ public class TaskController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(categoryTaskDtoList);
+    }
+
+    @PostMapping("/solve")
+    public ResponseEntity<String> solveTask(
+            @ModelAttribute("user") User user,
+            @RequestParam String category,
+            @RequestParam String answer) {
+        taskService.solveTaskFromCategory(user, category, answer);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("You responded correctly and gained tokens!");
     }
 }
