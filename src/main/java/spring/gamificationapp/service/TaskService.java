@@ -77,19 +77,21 @@ public class TaskService {
         List<Task> availableTasks = findTasksFromCategory(user, category);
         Task taskToSolve = availableTasks.get(0);
 
-        if (!answer.equals(taskToSolve.getCorrectOption()))
+        UserTask userTask = new UserTask();
+        userTask.setUser(user);
+        userTask.setTask(taskToSolve);
+
+        List<UserTask> forbiddenTasks = user.getForbiddenTasks();
+        forbiddenTasks.add(userTask);
+        user.setForbiddenTasks(forbiddenTasks);
+
+        userTaskRepository.save(userTask);
+
+        if (!answer.equals(taskToSolve.getCorrectOption())) {
+            userRepository.save(user);
             throw new WrongAnswerException();
-        else {
-            UserTask userTask = new UserTask();
-            userTask.setUser(user);
-            userTask.setTask(taskToSolve);
-
-            List<UserTask> forbiddenTasks = user.getForbiddenTasks();
-            forbiddenTasks.add(userTask);
-            user.setForbiddenTasks(forbiddenTasks);
+        } else {
             user.setTokens(user.getTokens().add(taskToSolve.getTokens()));
-
-            userTaskRepository.save(userTask);
             userRepository.save(user);
         }
     }
