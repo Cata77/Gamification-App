@@ -3,12 +3,8 @@ package spring.gamificationapp.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spring.gamificationapp.dto.TaskDto;
-import spring.gamificationapp.dto.UserProfileDto;
 import spring.gamificationapp.exception.*;
-import spring.gamificationapp.model.Category;
-import spring.gamificationapp.model.Task;
-import spring.gamificationapp.model.User;
-import spring.gamificationapp.model.UserTask;
+import spring.gamificationapp.model.*;
 import spring.gamificationapp.repository.OptionRepository;
 import spring.gamificationapp.repository.TaskRepository;
 import spring.gamificationapp.repository.UserRepository;
@@ -51,10 +47,12 @@ public class TaskService {
         UserTask userTask = new UserTask();
         userTask.setUser(user);
         userTask.setTask(task);
+        userTask.setTaskResult(TaskResult.CONTRIBUTION);
 
         List<UserTask> userTasks = user.getForbiddenTasks();
         userTasks.add(userTask);
         user.setForbiddenTasks(userTasks);
+        user.setTokens(user.getTokens().add(BigDecimal.valueOf(10)));
 
         optionRepository.saveAll(task.getOptions());
         taskRepository.save(task);
@@ -70,19 +68,23 @@ public class TaskService {
         userTask.setUser(user);
         userTask.setTask(taskToSolve);
 
+        if (answer.equals(taskToSolve.getCorrectOption())) {
+            userTask.setTaskResult(TaskResult.CORRECT_ANSWER);
+            user.setTokens(user.getTokens().add(taskToSolve.getTokens()));
+        } else {
+            userTask.setTaskResult(TaskResult.WRONG_ANSWER);
+            user.setTokens(user.getTokens().add(BigDecimal.valueOf(5)));
+        }
+
         List<UserTask> forbiddenTasks = user.getForbiddenTasks();
         forbiddenTasks.add(userTask);
         user.setForbiddenTasks(forbiddenTasks);
 
         userTaskRepository.save(userTask);
+        userRepository.save(user);
 
-        if (!answer.equals(taskToSolve.getCorrectOption())) {
-            userRepository.save(user);
+        if (userTask.getTaskResult() == TaskResult.WRONG_ANSWER)
             throw new WrongAnswerException();
-        } else {
-            user.setTokens(user.getTokens().add(taskToSolve.getTokens()));
-            userRepository.save(user);
-        }
     }
 
     public List<Task> findTasksFromCategory(User user, String category) {

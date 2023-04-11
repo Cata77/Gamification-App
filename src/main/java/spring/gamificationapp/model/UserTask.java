@@ -16,6 +16,8 @@ public class UserTask {
     private User user;
     @ManyToOne
     private Task task;
+    @Enumerated(EnumType.STRING)
+    private TaskResult taskResult;
 
     public UserTask() {}
 
@@ -43,17 +45,25 @@ public class UserTask {
         this.task = task;
     }
 
+    public TaskResult getTaskResult() {
+        return taskResult;
+    }
+
+    public void setTaskResult(TaskResult taskResult) {
+        this.taskResult = taskResult;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserTask userTask = (UserTask) o;
-        return Objects.equals(id, userTask.id) && Objects.equals(user, userTask.user) && Objects.equals(task, userTask.task);
+        return Objects.equals(id, userTask.id) && Objects.equals(user, userTask.user) && Objects.equals(task, userTask.task) && taskResult == userTask.taskResult;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, task);
+        return Objects.hash(id, user, task, taskResult);
     }
 
     @Override
@@ -62,6 +72,7 @@ public class UserTask {
                 "id=" + id +
                 ", user=" + user +
                 ", task=" + task +
+                ", taskResult=" + taskResult +
                 '}';
     }
 }
