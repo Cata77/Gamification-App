@@ -6,5 +6,5 @@ public enum Category {
     GEOGRAPHY,
     MUSIC,
     MOVIES,
-    FOOTBALL
+    SPORTS
 }

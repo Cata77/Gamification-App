@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.gamificationapp.dto.CategoryTaskDto;
 import spring.gamificationapp.dto.TaskDto;
-import spring.gamificationapp.dto.UserProfileDto;
 import spring.gamificationapp.model.Task;
 import spring.gamificationapp.model.User;
 import spring.gamificationapp.service.TaskService;
