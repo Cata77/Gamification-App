@@ -64,9 +64,7 @@ public class AuthenticationController {
                     description = "The user is logged in successfully",
                     content = @Content(schema = @Schema(implementation = AuthenticatedUserDto.class),
                             examples = @ExampleObject(value = """
-                                    {
                                         Logged in! Welcome testUser!
-                                    }
                                     """))),
                     @ApiResponse(responseCode = "404",
                             description = "The credentials are incorrect",

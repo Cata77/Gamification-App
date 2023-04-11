@@ -38,7 +38,7 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ErrorDetails> exceptionCategoryNotFoundHandler() {
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setMessage("Category not found! Choose one from : Programming,Economy,Geography," +
-                "Music,Movies,Football");
+                "Music,Movies,Sports");
         return ResponseEntity
                 .badRequest()
                 .body(errorDetails);
