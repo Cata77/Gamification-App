@@ -79,7 +79,7 @@ You can run the application (a REST server) in your IDE by running class ```Gami
  
  - Java 17
  
- - Spring Boot (3.0.1)
+ - Spring Boot (3.0.5)
  
  - Hibernate 
  
