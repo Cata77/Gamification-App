@@ -5,15 +5,19 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import spring.gamificationapp.dto.AuthenticatedUserDto;
 import spring.gamificationapp.exception.IncorrectCredentialsException;
 import spring.gamificationapp.exception.UserAlreadyTakenException;
 import spring.gamificationapp.model.User;
 import spring.gamificationapp.service.AuthenticationService;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/v1/users")

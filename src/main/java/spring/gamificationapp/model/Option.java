@@ -1,8 +1,8 @@
 package spring.gamificationapp.model;
 
-import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity

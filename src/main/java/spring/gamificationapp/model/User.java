@@ -1,8 +1,8 @@
 package spring.gamificationapp.model;
 
-import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
