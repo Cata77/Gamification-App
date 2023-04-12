@@ -73,7 +73,7 @@ You can run the application (a REST server) in your IDE by running class ```Gami
  
  ## Documentation
  The documentation for each Gamification APP endpoint was done via **Swagger springdoc-openapi** and it can be found after running the application at the following
- url ```http://localhost:8080/swagger-ui.html```
+ url ```https://gamification-app.herokuapp.com/swagger-ui/index.html```
  
  ## Technology
  
@@ -86,6 +86,8 @@ You can run the application (a REST server) in your IDE by running class ```Gami
  - Spring Data JPA
  
  - Documentation: Swagger springdoc-openapi
+ 
+ - Deployment: Heroku
  
  - Endpoints testing: Postman
  
