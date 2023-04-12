@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(title = "Gamification API", version = "1.0.0"),
-        servers = {@Server(url = "http://localhost:8080")})
+        servers = {@Server(url = "https://gamification-app.herokuapp.com/"),
+                @Server(url = "http://localhost:8080")})
 public class GamificationAppApplication {
 
     public static void main(String[] args) {
